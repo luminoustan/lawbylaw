@@ -1,0 +1,190 @@
+/* styles/context.css — the context-ring gauge and its "Context Usage"
+ * popover (portaled to <body>, pinned next to the gauge). */
+
+/* ── Context ring ───────────────────────────────────────────────────────── */
+
+/* The context ring is a real <button>: it opens the Context Usage modal.
+   Its compact appearance is now a bare circular gauge — the pct/ctx side text
+   was removed so only the ring remains. The button keeps a round hit target so
+   it sits cleanly in the composer footer action cluster. */
+.dsm-ctx {
+  display: inline-flex;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  border-radius: 999px;
+  cursor: pointer;
+  width: 22px;
+  height: 22px;
+  flex: 0 0 auto;
+}
+
+.dsm-ctx:hover,
+.dsm-ctx.is-open {
+  background: var(--dsm-hover);
+}
+
+.dsm-ctx:focus-visible {
+  outline: 1px solid var(--dsm-accent);
+  outline-offset: 1px;
+}
+
+.dsm-ctx svg {
+  display: block;
+  flex: 0 0 auto;
+  margin: 0 auto;
+}
+
+.dsm-ctx-track {
+  fill: none;
+  stroke: color-mix(in srgb, var(--dsm-contrast) 22%, transparent);
+  stroke-width: 3.5;
+}
+
+/* The arc keeps a plain stroke and a transition on its dash offset. A
+   `filter: drop-shadow(...)` here forces the SVG through a filtered layer that
+   has to be re-rasterised on every ring update (roughly every 50 streamed
+   tokens), which is far more expensive than the glow is worth. */
+.dsm-ctx-arc {
+  fill: none;
+  stroke: var(--dsm-contrast);
+  stroke-width: 3.5;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 200ms ease;
+}
+
+.dsm-ctx[data-state="idle"] .dsm-ctx-arc {
+  stroke: color-mix(in srgb, var(--dsm-contrast) 22%, transparent);
+}
+
+.dsm-ctx[data-state="warn"] .dsm-ctx-arc {
+  stroke: var(--dsm-danger);
+}
+
+/* ── Context Usage popover (portaled to <body>, pinned next to the gauge) ──
+ * .dsm-ctx-pop is positioned inline via position: fixed (top/bottom/left +
+ * max-height computed from the trigger's bounding rect, the same pattern
+ * MenuSelect uses for .dsm-menu-pop). It opens adjacent to the gauge — upward
+ * when there is more room above, else downward — and is NOT a centered modal:
+ * there is no fullscreen backdrop, so it reads as a small anchored panel. */
+.dsm-ctx-pop {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  max-width: 300px;
+  max-height: 100%;
+  padding: 12px 14px 14px;
+  background: var(--dsm-bg); /* solid; :root tokens make this opaque */
+  border: 1px solid var(--dsm-border-soft);
+  border-radius: 8px;
+  overflow-y: auto;
+  outline: none;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+.dsm-ctx-pop-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.dsm-ctx-pop-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--dsm-fg);
+}
+
+.dsm-ctx-pop-close {
+  width: 24px;
+  height: 24px;
+}
+
+/* Summary line: "N% Full" (left) and "~X / Y Tokens" (right). */
+.dsm-ctx-pop-summary {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 2px;
+}
+
+.dsm-ctx-pop-pct {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--dsm-fg);
+  font-variant-numeric: tabular-nums;
+}
+
+.dsm-ctx-pop-figures {
+  font-size: 11.5px;
+  color: var(--dsm-muted);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  text-align: right;
+}
+
+/* Single stacked bar: one segment per >0 category, sized to the same
+   denominator (turn budget). Flat colours, no gradient/shadow. */
+.dsm-ctx-pop-track {
+  display: flex;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--dsm-border-soft);
+  overflow: hidden;
+}
+
+.dsm-ctx-pop-seg {
+  height: 100%;
+  min-width: 2px;
+}
+
+/* Legend: swatch + name (left), compact token value (right), one per row. */
+.dsm-ctx-pop-legend {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.dsm-ctx-pop-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.dsm-ctx-pop-row dt {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  min-width: 0;
+  font-size: 11.5px;
+  color: var(--dsm-muted);
+}
+
+.dsm-ctx-pop-row dd {
+  margin: 0;
+  font-size: 11.5px;
+  color: var(--dsm-fg);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.dsm-ctx-pop-swatch {
+  flex: 0 0 auto;
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+}
+
+.dsm-ctx-pop-empty {
+  font-size: 11.5px;
+  color: var(--dsm-muted);
+  padding: 2px 0;
+}

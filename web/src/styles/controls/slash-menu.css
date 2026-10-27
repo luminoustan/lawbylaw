@@ -1,0 +1,136 @@
+/* styles/controls/slash-menu.css — the `/` skills popup above the composer. */
+
+.dsm-slash-menu {
+  background: var(--dsm-bg);
+  border: 1px solid var(--dsm-border-soft);
+  border-radius: 10px;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  font-family: var(--dsm-font-sans);
+  color: var(--dsm-fg);
+}
+
+.dsm-slash-header {
+  padding: 7px 12px;
+  border-bottom: 1px solid var(--dsm-border-soft);
+  background: var(--dsm-input-bg);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  color: var(--dsm-muted);
+}
+
+.dsm-slash-list {
+  overflow-y: auto;
+  flex: 1 1 auto;
+  padding: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--dsm-border) transparent;
+}
+
+.dsm-slash-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  user-select: none;
+  transition: background 100ms ease;
+}
+
+.dsm-slash-item:hover,
+.dsm-slash-item.is-selected {
+  background: var(--dsm-hover);
+}
+
+.dsm-slash-item.is-selected {
+  background: var(--dsm-active);
+}
+
+.dsm-slash-item-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.dsm-slash-item-icon-wrap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 4px;
+  flex-shrink: 0;
+  background: color-mix(in srgb, var(--dsm-fg) 8%, transparent);
+  border: 1px solid var(--dsm-border-soft);
+  color: var(--dsm-fg);
+}
+
+.dsm-slash-item-name {
+  font-family: var(--dsm-font-mono);
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--dsm-fg);
+  flex-shrink: 0;
+}
+
+.dsm-slash-item-desc {
+  font-size: 12px;
+  color: var(--dsm-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+
+.dsm-slash-badge {
+  font-size: 10px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 2px 7px;
+  border-radius: 4px;
+  flex-shrink: 0;
+  color: var(--dsm-fg);
+  background: color-mix(in srgb, var(--dsm-fg) 8%, transparent);
+  border: 1px solid var(--dsm-border-soft);
+}
+
+.dsm-slash-footer {
+  padding: 6px 12px;
+  border-top: 1px solid var(--dsm-border-soft);
+  background: var(--dsm-input-bg);
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  font-size: 10.5px;
+  color: var(--dsm-faint);
+}
+
+.dsm-slash-footer kbd {
+  background: var(--dsm-code-bg);
+  border: 1px solid var(--dsm-border-soft);
+  border-radius: 3px;
+  padding: 1px 4px;
+  font-family: var(--dsm-font-mono);
+  font-size: 10px;
+  color: var(--dsm-fg);
+}
+
+.dsm-slash-empty {
+  padding: 24px;
+  text-align: center;
+  color: var(--dsm-faint);
+  font-size: 12px;
+}

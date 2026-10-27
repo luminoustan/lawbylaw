@@ -1,0 +1,32 @@
+/* styles/messages/tool-answer.css — the answer card (askquestion).
+ *
+ * Split out of styles/messages.css; the aggregator there @imports this file in
+ * the original cascade position, so the bundled CSS is unchanged. */
+
+/* ── Answer card (askquestion) ───────────────────────────────────────────── */
+
+.dsm-answer-body {
+  display: flex;
+  flex-direction: column;
+  padding: 0 10px 6px;
+  font-size: 12.5px;
+  line-height: 1.5;
+}
+
+.dsm-answer-item {
+  padding: 8px 0;
+}
+
+.dsm-answer-item:not(:first-child) {
+  border-top: 1px solid var(--dsm-border);
+}
+
+.dsm-answer-q {
+  color: var(--dsm-muted);
+}
+
+.dsm-answer-a {
+  margin-top: 4px;
+  color: var(--dsm-fg);
+  font-weight: 600;
+}

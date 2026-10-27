@@ -1,0 +1,332 @@
+/* styles/controls/composer.css — the composer box, its in-box footer, the
+ * inline pills.
+ *
+ * Split out of styles/controls.css; the aggregator there @imports this file in
+ * the original cascade position, so the bundled CSS is unchanged. The
+ * send/stop action buttons live in controls/buttons.css. */
+
+/* composer */
+.dsm-composer {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* Suggested questions above the box: compact pills that only take the width they need. */
+.dsm-starters {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 6px;
+  margin-bottom: 2px;
+}
+
+.dsm-starter {
+  max-width: 100%;
+  padding: 5px 11px;
+  border: 1px solid var(--dsm-border-soft);
+  border-radius: 999px;
+  background: var(--dsm-input-bg);
+  color: var(--dsm-muted);
+  font: inherit;
+  font-size: 12px;
+  line-height: 1.3;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 120ms ease, color 120ms ease;
+}
+
+.dsm-starter:hover,
+.dsm-starter:focus-visible {
+  border-color: var(--dsm-accent);
+  color: var(--dsm-fg);
+}
+
+/* The bordered box is a vertical stack: auto-growing textarea on top and an
+   in-box footer row below carrying the mode/model pills + send/stop. */
+.dsm-composer-box {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  border: 1px solid var(--dsm-border-soft);
+  border-radius: 10px;
+  background: var(--dsm-input-bg);
+  padding: 8px 8px 6px 10px;
+  transition: border-color 120ms ease;
+}
+
+.dsm-composer-box:focus-within {
+  border-color: var(--dsm-accent);
+}
+
+.dsm-composer-box.is-editing {
+  border-color: var(--dsm-accent);
+}
+
+/* Edit-in-composer banner: shown while a user bubble is loaded for editing. */
+.dsm-composer-editing {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 6px 3px 8px;
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--dsm-accent) 12%, transparent);
+  color: var(--dsm-accent);
+  font-size: 11.5px;
+  line-height: 16px;
+}
+
+.dsm-composer-editing-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: currentColor;
+  flex: 0 0 auto;
+}
+
+.dsm-composer-editing-label {
+  flex: 1 1 auto;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dsm-composer-editing-cancel {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  padding: 0;
+  border: none;
+  border-radius: 5px;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  opacity: 0.8;
+}
+
+.dsm-composer-editing-cancel:hover {
+  background: color-mix(in srgb, currentColor 15%, transparent);
+  opacity: 1;
+}
+
+/* Grid wrapper for the input + placeholder. Both are grid items stacked in
+   the same cell, so the placeholder overlays the input as a true background.
+   It must NOT be a ::before inside the contenteditable: generated content sits
+   in the editable's inline flow, which pushes the caret to the end of the hint
+   text when the box is empty. As a separate grid item the caret stays at the
+   start of the (empty) line. */
+.dsm-composer-editor {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: grid;
+}
+
+.dsm-composer-editor > * {
+  grid-area: 1 / 1;
+}
+
+.dsm-composer-placeholder {
+  color: var(--palette-placeholder, #8a8a8a);
+  pointer-events: none;
+  user-select: none;
+  font: inherit;
+  font-size: 13px;
+  line-height: 22px;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.dsm-composer-input {
+  flex: 1 1 auto;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: var(--dsm-input-fg);
+  font: inherit;
+  font-size: 13px;
+  line-height: 22px;
+  min-height: 36px;
+  max-height: 200px;
+  padding: 0;
+  overflow-y: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+  cursor: text;
+}
+
+.dsm-composer-input:disabled,
+.dsm-composer-input[contenteditable="false"] {
+  opacity: 0.6;
+  cursor: default;
+}
+
+/* In-box footer row: selectors on the left (flex space), the Connecting…
+   indicator, then the right action cluster (context ring / send).
+   The trigger pills reuse .dsm-menu-trigger; the open popup still portals
+   to <body>. */
+.dsm-composer-footer {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Right-aligned cluster inside the footer: context ring
+   toggle and the send/stop button, sized like the round send button. The
+   .dsm-composer-selectors flex:1 below pushes this cluster to the right. */
+.dsm-composer-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 0 0 auto;
+}
+
+.dsm-composer-selectors {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.dsm-composer-footer .dsm-menu-trigger {
+  max-width: 190px;
+  padding: 2px 8px 2px 10px;
+  font-size: 11.5px;
+  line-height: 16px;
+  border-radius: 999px;
+  gap: 5px;
+}
+
+/* The reasoning-effort pill carries short labels (Off/Low/High/Max); keep it
+   compact so it never crowds the model pill. */
+.dsm-composer-footer .dsm-menu-trigger[title^="Reasoning effort"] {
+  max-width: 120px;
+}
+
+.dsm-composer-connecting {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: var(--dsm-muted);
+  white-space: nowrap;
+}
+
+/* Whose key writes the replies: the site owner's shared key, or the visitor's own. The wording always
+   differs; the dot is hollow for shared and filled for own, so it never depends on colour alone. */
+.dsm-keybadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  max-width: 100%;
+  padding: 2px 9px 2px 8px;
+  font: inherit;
+  font-size: 11.5px;
+  line-height: 16px;
+  color: var(--dsm-muted);
+  background: transparent;
+  border: 1px solid var(--dsm-border-soft);
+  border-radius: 999px;
+  cursor: pointer;
+}
+.dsm-keybadge:hover {
+  background: var(--dsm-hover);
+  color: var(--dsm-fg);
+}
+.dsm-keybadge:focus-visible {
+  outline: 2px solid var(--dsm-accent);
+  outline-offset: 1px;
+}
+.dsm-keybadge.is-own {
+  color: var(--dsm-fg);
+  border-color: var(--dsm-border);
+}
+.dsm-keybadge-dot {
+  flex: 0 0 auto;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  border: 1.5px solid currentColor;
+  box-sizing: border-box;
+}
+.dsm-keybadge.is-own .dsm-keybadge-dot {
+  background: currentColor;
+}
+.dsm-keybadge-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Element and File context pills in composer */
+.dsm-composer-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 20px;
+  padding: 0 5px 0 7px;
+  margin: 1px 3px;
+  background: var(--dsm-hover, rgba(255, 255, 255, 0.08));
+  border: 1px solid var(--dsm-border, rgba(255, 255, 255, 0.16));
+  border-radius: 999px;
+  font-size: 11.5px;
+  font-family: var(--dsm-font-mono);
+  color: var(--dsm-fg, #eaeaea);
+  max-width: 260px;
+  user-select: none;
+  vertical-align: middle;
+  line-height: 1;
+  cursor: default;
+  transition: all 120ms ease;
+}
+
+.dsm-composer-pill:hover {
+  background: var(--dsm-active, rgba(255, 255, 255, 0.14));
+  border-color: var(--dsm-brand);
+}
+
+/* Quoted chat text added from a selection — distinct icon tint from file pills. */
+.dsm-composer-pill.dsm-quote-pill .dsm-pill-icon {
+  color: var(--dsm-muted);
+}
+
+.dsm-composer-pill .dsm-pill-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--dsm-brand);
+  flex-shrink: 0;
+}
+
+.dsm-composer-pill .dsm-pill-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dsm-composer-pill .dsm-pill-x {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 13px;
+  height: 13px;
+  border-radius: 999px;
+  border: none;
+  background: transparent;
+  color: var(--dsm-muted, #888888);
+  cursor: pointer;
+  padding: 0;
+  margin-left: 2px;
+  flex-shrink: 0;
+}
+
+.dsm-composer-pill .dsm-pill-x:hover {
+  background: var(--dsm-active);
+  color: var(--dsm-fg);
+}
+

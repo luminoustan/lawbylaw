@@ -1,0 +1,63 @@
+/* styles/chat/lightbox.css — the full-screen Mermaid diagram viewer
+ * (both portaled to <body>).
+ *
+ * Split out of styles/chat.css; the aggregator there @imports this file in the
+ * original cascade position, so the bundled CSS is unchanged. */
+
+.dsm-mermaid-lightbox-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.14);
+  color: #ffffff;
+  cursor: pointer;
+}
+.dsm-mermaid-lightbox-close:hover {
+  background: rgba(255, 255, 255, 0.28);
+}
+
+/* Fullscreen mermaid viewer (portaled to <body>). The overlay doubles as the
+ * pan surface: the wheel zooms around the pointer, dragging pans, and a click
+ * outside the diagram dismisses (see components/MermaidLightbox.tsx). */
+.dsm-mermaid-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.82);
+  cursor: default;
+  user-select: none;
+  /* The viewer is always a black canvas — it does not follow the page theme. Re-ink the diagram tokens
+     inside the overlay (light on black) so the diagram stays readable there
+     in light and high-contrast themes too. */
+  --dsm-fg: #ffffff;
+  --dsm-muted: rgba(255, 255, 255, 0.78);
+  --dsm-code-bg: rgba(255, 255, 255, 0.14);
+  --dsm-border: rgba(255, 255, 255, 0.5);
+  --dsm-border-soft: rgba(255, 255, 255, 0.4);
+  --dsm-bg: #000000;
+}
+.dsm-mermaid-lightbox-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform-origin: 0 0;
+  cursor: grab;
+  will-change: transform;
+  /* The SVG paints no background of its own, so without this the transcript
+     behind the 0.82 backdrop shows through the diagram. */
+  background: #000000;
+  border-radius: 8px;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5);
+}
+.dsm-mermaid-lightbox.is-panning .dsm-mermaid-lightbox-canvas {
+  cursor: grabbing;
+}

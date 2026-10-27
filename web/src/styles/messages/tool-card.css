@@ -1,0 +1,155 @@
+/* styles/messages/tool-card.css — the shared tool-card shell (border, header,
+ * icon, name, meta) and the running-name pulse.
+ *
+ * Split out of styles/messages.css; the aggregator there @imports this file in
+ * the original cascade position, so the bundled CSS is unchanged. */
+
+/* ── Tool cards ───────────────────────────────────────────── */
+
+/* Tool cards are bordered boxes; summary rows and groups are not. */
+.dsm-tool {
+  margin: 8px 0;
+  border: 1px solid var(--dsm-border-soft);
+  border-radius: 8px;
+  overflow: hidden;
+  background: transparent;
+}
+
+.dsm-tool[data-status="error"] {
+  border-color: color-mix(in srgb, var(--dsm-danger) 45%, var(--dsm-border-soft));
+}
+
+.dsm-tool-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  background: transparent;
+}
+
+.dsm-tool-icon {
+  display: inline-flex;
+  align-items: center;
+  color: var(--dsm-fg);
+}
+
+@keyframes dsm-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.dsm-tool-name {
+  flex: 1;
+  min-width: 0;
+  font-weight: 500;
+  font-size: 12.5px;
+  color: var(--dsm-fg);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dsm-tool-meta {
+  flex: 0 0 auto;
+  font-size: 11px;
+  color: var(--dsm-muted);
+}
+
+/* While a tool is running its name pulses in the brand colour instead of the
+   icon spinning. Opacity is composited; the previous left-to-right sweep
+   animated `background-position` under `background-clip: text`, which repaints
+   the glyphs on every frame of every running card and keeps the rasteriser
+   busy for the whole turn. */
+.dsm-tool[data-status="running"] .dsm-tool-name-glow {
+  color: var(--dsm-brand);
+  animation: dsm-tool-pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes dsm-tool-pulse {
+  50% {
+    opacity: 0.45;
+  }
+}
+
+/* ── Legal research cards (ported from grpo's ToolCallBadge) ───────────── */
+.dsm-legal-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 32px;
+  padding: 6px 10px;
+  border: 0;
+  background: transparent;
+  color: var(--dsm-fg);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.dsm-legal-head:disabled { cursor: default; }
+.dsm-legal-name { font-weight: 500; font-size: 12.5px; white-space: nowrap; }
+.dsm-legal-sub {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 12px;
+  color: var(--dsm-muted);
+}
+.dsm-legal-live { display: inline-flex; gap: 8px; align-items: center; flex-shrink: 0; font-size: 11.5px; color: var(--dsm-muted); }
+.dsm-legal-phase { animation: dsm-legal-pulse 1.6s ease-in-out infinite; }
+.dsm-legal-count { font-variant-numeric: tabular-nums; opacity: 0.8; }
+@keyframes dsm-legal-pulse { 50% { opacity: 0.45; } }
+@media (prefers-reduced-motion: reduce) { .dsm-legal-phase { animation: none; } }
+.dsm-legal-body {
+  padding: 8px 12px;
+  border-top: 1px solid var(--dsm-border-soft);
+  max-height: 240px;
+  overflow: auto;
+  white-space: pre-wrap;
+  font-size: 12px;
+  color: var(--dsm-muted);
+}
+@media (max-width: 560px) { .dsm-legal-sub { display: none; } }
+
+/* classify_issue follow-up questions */
+.dsm-followup {
+  margin: 12px 0;
+  padding: 12px;
+  border: 1px solid var(--dsm-border-soft);
+  border-radius: 12px;
+}
+.dsm-followup-intro { margin: 0 0 10px; font-size: 13px; color: var(--dsm-muted); }
+.dsm-followup-q { margin-bottom: 12px; }
+.dsm-followup-row { display: flex; justify-content: space-between; gap: 8px; margin-bottom: 4px; }
+.dsm-followup-row label { font-size: 13px; font-weight: 500; line-height: 1.35; }
+.dsm-followup-row label.is-skipped { text-decoration: line-through; opacity: 0.5; }
+.dsm-followup-input { display: flex; gap: 6px; }
+.dsm-followup-input input {
+  flex: 1;
+  min-width: 0;
+  padding: 8px 10px;
+  font-size: 16px; /* no iOS zoom */
+  color: var(--dsm-fg);
+  background: transparent;
+  border: 1px solid var(--dsm-border-soft);
+  border-radius: 10px;
+}
+.dsm-followup-input button {
+  min-height: 40px;
+  padding: 0 12px;
+  font: inherit;
+  font-size: 12px;
+  color: var(--dsm-muted);
+  background: transparent;
+  border: 1px solid var(--dsm-border-soft);
+  border-radius: 10px;
+  cursor: pointer;
+}
+.dsm-followup-input button.is-on { color: var(--dsm-fg); border-color: var(--dsm-fg); }
+.dsm-followup-skipped { margin: 2px 0 0; font-size: 12px; font-style: italic; color: var(--dsm-muted); }
+.dsm-followup-link { min-height: 32px; padding: 0 6px; font: inherit; font-size: 12px; color: var(--dsm-muted); background: none; border: 0; cursor: pointer; }
+.dsm-followup-link:disabled { visibility: hidden; }
+.dsm-followup-actions { display: flex; justify-content: space-between; align-items: center; margin-top: 8px; }

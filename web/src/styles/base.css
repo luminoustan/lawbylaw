@@ -1,0 +1,272 @@
+/* styles/base.css — app shell, global box model, top bar and flat buttons. */
+
+.dsm-app {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: var(--dsm-bg);
+  color: var(--dsm-fg);
+  font-family: var(--dsm-font-sans);
+  font-size: 13px;
+  line-height: 1.5;
+  overflow: hidden;
+  position: relative; /* containing block for the rail backdrop and rail */
+  container-type: inline-size; /* narrow-sidebar queries below */
+}
+
+.dsm-app * {
+  box-sizing: border-box;
+}
+
+/* ── Monochrome defaults ─────────────────────────────────────────────────── */
+/* Focus rings, text selection and form-control accents default to the system
+ * accent (blue); these rules keep them in the app's monochrome palette. */
+body {
+  /* Native checkboxes / radios / range thumbs. */
+  accent-color: var(--dsm-fg);
+}
+
+::selection {
+  background: color-mix(in srgb, var(--dsm-contrast) 22%, var(--dsm-bg));
+  color: var(--dsm-contrast);
+}
+
+/* Keyboard focus ring for controls. Text fields and the contenteditable
+   composer already show focus through their border colour, so they are left
+   alone. The composer carries tabindex=0, so it must be excluded from the
+   [tabindex] rule explicitly — otherwise clicking it paints an outline box. */
+button:focus-visible,
+a:focus-visible,
+summary:focus-visible,
+select:focus-visible,
+[tabindex]:not(.dsm-composer-input):focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+input[type="checkbox"]:focus-visible,
+input[type="radio"]:focus-visible {
+  outline: 1px solid var(--dsm-accent);
+  outline-offset: 1px;
+}
+
+/* ── Top bar ─────────────────────────────────────────────────────────────── */
+.dsm-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex: 0 0 38px;
+  padding: 0 8px;
+  border-bottom: 1px solid var(--dsm-border-soft);
+}
+
+/* ── Session chip strip (topbar) ─────────────────────────────────────────── */
+.dsm-session-strip {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 10px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.dsm-session-strip::-webkit-scrollbar {
+  display: none;
+}
+
+.dsm-session-chip {
+  flex: 0 0 auto;
+  max-width: 180px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font: inherit;
+  font-size: 12px;
+  color: var(--dsm-fg);
+  background: var(--dsm-chip-bg);
+  border: 1px solid var(--dsm-border-soft);
+  border-radius: 6px;
+  padding: 0;
+  user-select: none;
+  transition: background 120ms ease, border-color 120ms ease, color 120ms ease;
+}
+.dsm-session-chip > .dsm-session-chip-label {
+  min-width: 0;
+  padding: 3px 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font: inherit;
+  font-size: 12px;
+  color: inherit;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+.dsm-session-chip:hover {
+  background: var(--dsm-hover);
+}
+.dsm-session-chip.is-active {
+  background: var(--dsm-input-bg);
+  border-color: var(--dsm-border);
+  color: var(--dsm-fg);
+  font-weight: 600;
+}
+
+/* Working indicator — an inline SVG spinner shown while the session's turn is
+   running. It is only mounted while busy, so idle tabs pay nothing, and the
+   rotation is a composited transform (no layout, no paint). */
+.dsm-session-chip-working {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  /* Margin, not padding: the rotated box must be exactly the SVG box, or the
+     icon would orbit its own padding. */
+  margin-left: 8px;
+  color: var(--dsm-muted);
+}
+.dsm-session-chip-spinner {
+  animation: dsm-spin 0.8s linear infinite;
+  transform-origin: 50% 50%;
+}
+/* Tighten the title's left inset so the leading spinner reads as a chip icon
+   instead of indenting the label. */
+.dsm-session-chip > .dsm-session-chip-working + .dsm-session-chip-label {
+  padding-left: 4px;
+}
+
+/* Close ("×") affordance — always shown on the active chip; on other chips it
+   is only revealed on hover. */
+.dsm-session-chip-close {
+  flex: 0 0 auto;
+  padding: 0 5px;
+  align-self: stretch;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  color: var(--dsm-muted);
+  cursor: pointer;
+  border-radius: 0 5px 5px 0;
+  opacity: 0;
+  transition: opacity 120ms ease, color 120ms ease, background 120ms ease;
+}
+.dsm-session-chip:hover .dsm-session-chip-close,
+.dsm-session-chip.is-active .dsm-session-chip-close,
+.dsm-session-chip-close:focus-visible {
+  opacity: 1;
+}
+.dsm-session-chip-close:hover {
+  background: var(--dsm-danger);
+  color: var(--dsm-bg);
+}
+
+/* Subagent transcript chip — a synthetic, read-only session opened from a task
+   row. A leading ↳ glyph and a dashed border distinguish it from a chat. */
+.dsm-session-chip--sub {
+  border-style: dashed;
+}
+.dsm-session-chip-sub-mark {
+  margin-right: 5px;
+  color: var(--dsm-muted);
+}
+
+.dsm-topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+/* ── Buttons ─────────────────────────────────────────────────────────────── */
+.dsm-btn {
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--dsm-fg);
+  font: inherit;
+  border-radius: 6px;
+  cursor: pointer;
+  padding: 5px 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: background 120ms ease, border-color 120ms ease, opacity 120ms ease;
+}
+
+.dsm-btn:hover:not(:disabled) {
+  background: var(--dsm-hover);
+}
+
+.dsm-btn:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.dsm-btn-icon {
+  width: 27px;
+  height: 27px;
+  padding: 0;
+}
+
+.dsm-btn-icon.is-active {
+  background: var(--dsm-hover);
+}
+
+/* Filled monochrome button: the foreground colour as the surface and the panel
+   background as the label, so it inverts with the theme (black-on-white in
+   light themes, white-on-black in dark ones). */
+.dsm-btn-primary {
+  background: var(--dsm-brand);
+  color: var(--dsm-bg);
+  font-weight: 500;
+  padding: 6px 14px;
+}
+
+.dsm-btn-primary:hover:not(:disabled) {
+  background: var(--dsm-brand-strong);
+}
+
+/* ── Reduced motion ────────────────────────────────────────────────────────
+ * Everything animated here is decoration (working indicators, spinners,
+ * blinking dots). Users who ask their OS for reduced motion get static state
+ * instead, which also removes the last continuously-repainting layers from the
+ * transcript while a turn streams. */
+@media (prefers-reduced-motion: reduce) {
+  .dsm-tool[data-status="running"] .dsm-tool-name-glow,
+  .dsm-typing-dots i,
+  .dsm-planning-label,
+  .dsm-session-chip-spinner,
+  .dsm-spinner {
+    animation: none;
+  }
+
+  .dsm-ctx-arc {
+    transition: none;
+  }
+
+  /* Also neutralise the many decorative transitions (hover fades, chevron
+   * rotation, popover reveals), not just keyframe animations. */
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ── Narrow windows ────────────────────────────────────────────────────────
+ * Shrink the rail rather than letting it squeeze the transcript. */
+@container (max-width: 520px) {
+  .dsm-rail {
+    width: min(250px, 86vw);
+  }
+}
+
+@container (max-width: 420px) {
+  .dsm-settings-nav {
+    display: none;
+  }
+}

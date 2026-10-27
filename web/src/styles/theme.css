@@ -1,0 +1,82 @@
+/* styles/theme.css — design tokens.
+ * Colours come from the --palette-* base palette (web-theme.css), which flips
+ * between dark and light. These tokens live on <body> so they are inherited by
+ * EVERYTHING, including elements Solid <Portal>s into document.body (the
+ * .dsm-menu-pop list, the .dsm-ctx-pop panel). Declaring them only on
+ * .dsm-app meant portaled descendants resolved var(--dsm-bg) to
+ * unset/transparent — a translucent "glass" dropdown/modal with no solid
+ * backdrop.
+ *
+ * They must NOT live on :root: a var() inside a custom property is substituted
+ * on the element where that property is DECLARED. On :root,
+ * `--dsm-brand: var(--dsm-contrast)` would bake in the dark value before the
+ * `html.theme-light body` override below could apply; on <body>, every derived
+ * token sees those overrides. */
+
+body {
+  --dsm-bg: var(--palette-panel);
+  --dsm-fg: var(--palette-fg);
+  --dsm-muted: var(--palette-muted);
+  --dsm-faint: color-mix(in srgb, var(--dsm-fg) 78%, transparent);
+  --dsm-border: var(--palette-border);
+  --dsm-border-soft: var(--palette-border-soft);
+  --dsm-accent: #8a8a8a;
+  --dsm-input-bg: var(--palette-input-bg);
+  --dsm-input-fg: var(--palette-input-fg);
+  /* Editable fields need an edge. `--dsm-border-soft` equals the input fill in dark
+   * mode, so a field drawn with it has no visible outline; this mixes the foreground
+   * into the fill instead, which reads as a rectangle in both themes. */
+  --dsm-input-border: color-mix(in srgb, var(--dsm-fg) 22%, var(--dsm-input-bg));
+  /* Solid raised surface for docked cards (questions, errors).
+   * Distinct from --dsm-input-bg (translucent) so the card reads as a panel. */
+  --dsm-surface: var(--palette-surface);
+  /* Alias for --dsm-muted. */
+  --dsm-fg-muted: var(--dsm-muted);
+  /* Interaction tints are mixed from the theme foreground, so they darken on
+   * light themes and lighten on dark ones without a per-theme override. */
+  --dsm-hover: color-mix(in srgb, var(--dsm-fg) 8%, transparent);
+  --dsm-active: color-mix(in srgb, var(--dsm-fg) 14%, transparent);
+  --dsm-active-fg: var(--dsm-fg);
+  --dsm-chip-bg: rgba(128, 128, 128, 0.28);
+  --dsm-code-bg: rgba(128, 128, 128, 0.14);
+  /* Status colours are monochrome too: the shape around them (border, tint,
+   * icon) carries the meaning instead of a hue. */
+  --dsm-danger: var(--dsm-fg);
+  --dsm-success: var(--dsm-fg);
+  --dsm-font-sans: var(--palette-font);
+  --dsm-font-mono: ui-monospace, "Cascadia Mono", "SF Mono", Menlo, Consolas, monospace;
+  /* Shared measure for the chat column: the transcript and the docked composer
+   * both centre on this width so the input box lines up with the bubbles above. */
+  --dsm-chat-column: 880px;
+  --dsm-chat-gutter: 18px;
+  /* Reserved scrollbar gutter inside the transcript; the docks add the same
+   * offset so both columns share one centre line. */
+  --dsm-scrollbar-width: 6px;
+
+  /* Monochrome accent: pure white on dark themes, pure black on light ones —
+   * the same flip as --dsm-contrast (see below). Filled surfaces pair it with
+   * --dsm-bg for their text, so the pair inverts cleanly in both themes. */
+  --dsm-brand: var(--dsm-contrast);
+  --dsm-brand-strong: color-mix(in srgb, var(--dsm-contrast) 80%, var(--dsm-bg));
+  /* Text on a filled accent/primary button. */
+  --dsm-btn-primary-fg: var(--dsm-contrast);
+
+  /* Maximum-contrast foreground against --dsm-bg: white on dark backgrounds,
+   * black on light ones (flipped by `html.theme-light body` below). Used by the
+   * context ring so it always reads clearly against the panel background. */
+  --dsm-contrast: #ffffff;
+
+  /* Step-wise grey ramp for multi-segment visuals (context-usage bar + legend):
+   * strongest → weakest against the panel background. */
+  --dsm-ramp-1: var(--dsm-contrast);
+  --dsm-ramp-2: color-mix(in srgb, var(--dsm-contrast) 78%, var(--dsm-bg));
+  --dsm-ramp-3: color-mix(in srgb, var(--dsm-contrast) 56%, var(--dsm-bg));
+  --dsm-ramp-4: color-mix(in srgb, var(--dsm-contrast) 34%, var(--dsm-bg));
+  --dsm-ramp-5: color-mix(in srgb, var(--dsm-contrast) 16%, var(--dsm-bg));
+}
+
+/* Light theme: flip the contrast colour to black so the context ring stays
+ * legible on a light panel background. */
+html.theme-light body {
+  --dsm-contrast: #000000;
+}

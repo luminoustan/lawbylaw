@@ -1,0 +1,67 @@
+/* styles/messages/tool-task.css — the task card (subagent).
+ *
+ * Split out of styles/messages.css; the aggregator there @imports this file in
+ * the original cascade position, so the bundled CSS is unchanged. */
+
+/* ── Task card (subagent) ────────────────────────────────────────────────── */
+
+.dsm-tool--task {
+  border: 0;
+  margin: 6px 0;
+}
+
+.dsm-task-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12.5px;
+}
+
+/* When the subagent transcript is openable the row is a <button>; reset the
+ * native chrome so it still reads as the same bulleted line, plus a hover hint. */
+button.dsm-task-row {
+  width: 100%;
+  margin: 0;
+  padding: 2px 4px;
+  border: 0;
+  border-radius: 5px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: 12.5px;
+  text-align: left;
+  cursor: pointer;
+}
+
+button.dsm-task-row:hover {
+  background: var(--dsm-hover);
+}
+
+button.dsm-task-row:focus-visible {
+  outline: 1px solid var(--dsm-accent);
+  outline-offset: 1px;
+}
+
+.dsm-task-bullet {
+  flex: 0 0 auto;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--dsm-muted);
+}
+
+.dsm-task-name {
+  font-weight: 500;
+  color: var(--dsm-fg);
+}
+
+.dsm-task-type {
+  color: var(--dsm-muted);
+  font-size: 11.5px;
+}
+
+.dsm-task-status {
+  margin-left: 14px;
+  color: var(--dsm-muted);
+  font-size: 11.5px;
+}

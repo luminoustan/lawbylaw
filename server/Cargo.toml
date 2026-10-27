@@ -1,0 +1,48 @@
+[package]
+name = "lawbylaw-server"
+version = "0.1.0"
+edition = "2024"
+license = "MIT"
+
+[dependencies]
+axum = { version = "0.8", features = ["macros", "query"] }
+tokio = { version = "1", features = ["full"] }
+tower = { version = "0.5", features = ["util"] }
+tower-http = { version = "0.6", features = ["compression-gzip", "compression-br", "fs", "request-id", "timeout"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+# rustls (not native-tls/OpenSSL) so the release binary has no OpenSSL dependency
+# and can be statically linked against musl for the scratch runtime image.
+reqwest = { version = "0.12", default-features = false, features = ["json", "stream", "rustls-tls"] }
+qdrant-client = "1.18"
+sha2 = "0.10"
+prometheus = { version = "0.14", features = ["process"] }
+lazy_static = "1.5"
+moka = { version = "0.12", features = ["future"] }
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter", "json"] }
+futures = "0.3"
+tokio-stream = { version = "0.1", features = ["sync"] }
+async-stream = "0.3"
+uuid = { version = "1", features = ["v4", "v5", "v7", "serde"] }
+regex = "1"
+chrono = { version = "0.4", features = ["serde"] }
+envy = "0.4"
+dotenvy = "0.15"
+anyhow = "1"
+url = "2"
+# Qwen3 token counting for chunk-aware get_section. fancy-regex (pure Rust) rather
+# than the default onig keeps the static musl build free of extra C code.
+tokenizers = { version = "0.21", default-features = false, features = ["fancy-regex"] }
+redis = { version = "1.7.1", default-features = false, features = ["tokio-comp", "connection-manager"] }
+
+[dev-dependencies]
+tower = { version = "0.5", features = ["util"] }
+
+[lib]
+name = "lawbylaw_server"
+path = "src/lib.rs"
+
+[[bin]]
+name = "lawbylaw-server"
+path = "src/main.rs"

@@ -1,0 +1,181 @@
+/* styles/settings.css — the in-house Settings overlay (scrim, dialog,
+ * sections, provider rows and inputs). */
+
+/* ── Settings overlay ───────────────────────────────────────────────────── */
+.dsm-settings-scrim {
+  /* Fixed (not absolute) so the overlay escapes .dsm-app's flex flow and covers
+     the whole viewport — including the top bar — rather than only the space
+     left over after the topbar and body. */
+  position: fixed;
+  inset: 0;
+  z-index: 60; /* above topbar, rail (5) and backdrop (4); below menu pops (1000) */
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+}
+
+.dsm-settings {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: var(--dsm-bg);
+  overflow: hidden;
+}
+
+.dsm-settings-head {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 9px 12px;
+  border-bottom: 1px solid var(--dsm-border-soft);
+}
+
+.dsm-settings-title {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.dsm-settings-panes {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+}
+
+/* ── Right content pane ─────────────────────────────────────────────────── */
+.dsm-settings-content {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow-y: auto;
+  padding: 14px 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.dsm-settings-heading {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+/* Grouped card container for related rows. */
+.dsm-settings-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px;
+  border: 1px solid var(--dsm-border-soft);
+  border-radius: 8px;
+  background: var(--dsm-input-bg);
+}
+
+/* Plain scrollbar with no background/track — just a thin transparent rail
+   and a subtle thumb. */
+.dsm-settings-content::-webkit-scrollbar {
+  width: 8px;
+}
+.dsm-settings-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+.dsm-settings-content::-webkit-scrollbar-corner {
+  background: transparent;
+}
+.dsm-settings-content::-webkit-scrollbar-thumb {
+  background: var(--dsm-border);
+  border-radius: 4px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+.dsm-settings-content::-webkit-scrollbar-thumb:hover {
+  background: var(--dsm-muted);
+  background-clip: content-box;
+}
+/* Firefox */
+.dsm-settings-content {
+  scrollbar-width: thin;
+  scrollbar-color: var(--dsm-border) transparent;
+}
+
+/* Mode/Model pickers in Settings stretch across the pane; the trigger text
+   is still truncated by the existing .dsm-menu-trigger rules. */
+.dsm-settings-content .dsm-menu,
+.dsm-settings-content .dsm-menu-trigger {
+  width: 100%;
+  max-width: none;
+}
+
+.dsm-settings-note {
+  margin: 0;
+  font-size: 12px;
+  color: var(--dsm-muted);
+}
+
+.dsm-provider-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.dsm-provider-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.dsm-provider-name {
+  font-size: 12.5px;
+  font-weight: 600;
+}
+
+.dsm-provider-status {
+  font-size: 11px;
+  color: var(--dsm-muted);
+}
+
+.dsm-provider-status[data-state="ok"] {
+  color: var(--dsm-success);
+}
+
+.dsm-settings-input {
+  background: var(--dsm-input-bg);
+  color: var(--dsm-input-fg);
+  border: 1px solid var(--dsm-input-border);
+  border-radius: 6px;
+  font: inherit;
+  font-size: 12px;
+  padding: 5px 8px;
+  outline: none;
+  width: 190px;
+}
+
+.dsm-settings-input:focus {
+  border-color: var(--dsm-accent);
+}
+
+.dsm-settings-input:disabled {
+  opacity: 0.6;
+}
+
+.dsm-settings-error {
+  font-size: 11.5px;
+  color: var(--dsm-danger);
+}
+
+.dsm-setting-hint {
+  font-size: 10.5px;
+  line-height: 1.35;
+  color: var(--dsm-muted);
+}
+
+.dsm-settings-input--wide {
+  width: 100%;
+  box-sizing: border-box;
+}
+

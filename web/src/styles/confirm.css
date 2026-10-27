@@ -1,0 +1,82 @@
+/* styles/confirm.css — the confirmation dialog used to warn before a
+ * potentially surprising action (downloading a transcript, opening a link). */
+
+.dsm-confirm-scrim {
+  position: fixed;
+  inset: 0;
+  /* Above the settings scrim (60), menu pops (1000) and lightboxes (2000). */
+  z-index: 3000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(0, 0, 0, 0.45);
+}
+
+.dsm-confirm {
+  width: 100%;
+  max-width: 420px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px;
+  border: 1px solid var(--dsm-border-soft);
+  border-radius: 10px;
+  background: var(--dsm-bg);
+  color: var(--dsm-fg);
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.45);
+  outline: none;
+}
+
+.dsm-confirm-title {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.dsm-confirm-message {
+  margin: 0;
+  font-size: 12.5px;
+  line-height: 1.45;
+  color: var(--dsm-muted);
+}
+
+.dsm-confirm-detail {
+  margin: 0;
+  padding: 8px 10px;
+  border: 1px solid var(--dsm-border-soft);
+  border-radius: 6px;
+  background: var(--dsm-input-bg);
+  color: var(--dsm-fg);
+  font-size: 12px;
+  word-break: break-all;
+  max-height: 120px;
+  overflow: auto;
+}
+
+/* Bright-light warning shown before a link opens a page that may be white. */
+.dsm-confirm-notice {
+  margin: 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 8px 10px;
+  border: 1px solid var(--dsm-border-soft);
+  border-radius: 6px;
+  background: var(--dsm-hover);
+  color: var(--dsm-fg);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.dsm-confirm-notice svg {
+  flex: 0 0 auto;
+  margin-top: 1px;
+}
+
+.dsm-confirm-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 4px;
+}

@@ -1,0 +1,11 @@
+title = "lawbylaw"
+[extend]
+useDefault = true
+
+[[rules]]
+id = "deepseek-key"
+description = "DeepSeek style API key"
+regex = '''sk-[A-Za-z0-9]{20,}'''
+
+[allowlist]
+paths = ['''\.env\.example$''']

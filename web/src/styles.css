@@ -1,0 +1,16 @@
+/* styles.css — the app's styles. Flat, minimal, no external fonts/icons.
+ *
+ * This is a build-time aggregator: each import is inlined into the bundled
+ * stylesheet in the order below. The palette (web-theme.css) comes first, then
+ * the design tokens built on it (theme.css). */
+@import "./styles/web-theme.css";
+@import "./styles/theme.css";
+@import "./styles/base.css";
+@import "./styles/rail.css";
+@import "./styles/chat.css";
+@import "./styles/messages.css";
+@import "./styles/controls.css";
+@import "./styles/context.css";
+@import "./styles/settings.css";
+@import "./styles/confirm.css";
+@import "./styles/welcome.css";

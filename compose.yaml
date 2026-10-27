@@ -1,0 +1,33 @@
+# podman compose up --build
+services:
+  # Rust-only build: compiles just the server (no Node/web stage) into the
+  # scratch runtime image. This is the default service.
+  server:
+    build: { context: ., dockerfile: Containerfile.server }
+    env_file: .env            # never committed; see .env.example
+    environment:
+      TRUST_PROXY: ${TRUST_PROXY:-none}
+    ports: ["8000:8000"]
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+  # Full image: Rust server + built web UI served from /app/static.
+  # Enable with: podman compose --profile web up --build
+  app:
+    build: { context: ., dockerfile: Containerfile }
+    profiles: ["web"]
+    env_file: .env            # never committed; see .env.example
+    environment:
+      TRUST_PROXY: ${TRUST_PROXY:-none}
+    ports: ["8000:8000"]
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+  # Optional: enable real legal-search RAG. Needs an embedding server (VLLM_BASE_URL)
+  # and an indexed collection; without them chat answers without retrieval.
+  qdrant:
+    image: docker.io/qdrant/qdrant:latest
+    profiles: ["rag"]
+    volumes: ["qdrant:/qdrant/storage"]
+volumes:
+  qdrant: {}

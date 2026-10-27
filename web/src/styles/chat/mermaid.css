@@ -1,0 +1,214 @@
+/* styles/chat/mermaid.css — the Mermaid diagram block and the collapsible
+ * original source.
+ *
+ * Split out of styles/chat.css; the aggregator there @imports this file in the
+ * original cascade position, so the bundled CSS is unchanged. */
+
+/* ── Mermaid diagrams ───────────────────────────────────────────────────────
+   Rendered from ```mermaid fences by lib/mermaid-lite.ts. The SVG is themed
+   entirely through these classes (monochrome, following --dsm-* tokens) so it
+   matches the rest of the transcript in both themes. */
+.dsm-mermaid-diagram {
+  padding: 12px;
+  overflow: auto;
+  max-height: 70vh;
+}
+
+.dsm-mermaid-svg {
+  display: block;
+  /* Structural guide lines (subgraph/frame borders, lifelines) follow the text
+     colour at 75% instead of the soft border token: --dsm-border-soft is a
+     low-alpha grey that composites to a faint smudge on dark backgrounds, so
+     the dashed boxes read as barely-there. Mixing with the foreground keeps
+     them white-ish on dark themes and visible on light ones. */
+  --dsm-mermaid-guide: color-mix(in srgb, var(--dsm-fg) 75%, transparent);
+  /* Fill the column: a diagram narrower than the transcript grows into it rather
+     than sitting in the left of it. The renderer caps this with an inline
+     max-width of twice the natural width, so small graphs do not balloon. */
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  /* A diagram that is still narrower than the viewport (a small graph) is
+     centred rather than left with all the slack on the right. The auto margins
+     resolve to zero once it is wider, so a scrolling diagram can reach both
+     edges. */
+  margin-left: auto;
+  margin-right: auto;
+  /* A diagram wider than the column shrinks to fit, but never below this
+     readable floor (set per diagram by lib/mermaid/lexer.ts); past it the
+     diagram scrolls instead of squeezing its text. */
+  min-width: var(--dsm-mermaid-min, 0);
+}
+
+/* The diagram itself is the fullscreen trigger: clicking it (or Enter/Space on
+   the focused block) opens the overlay wired in components/markdown-text.tsx. */
+.dsm-mermaid-diagram {
+  cursor: zoom-in;
+}
+
+.dsm-mermaid-diagram:focus-visible {
+  outline: 2px solid var(--dsm-brand);
+  outline-offset: -2px;
+}
+
+.dsm-mermaid-svg text {
+  font-family: var(--dsm-font-sans);
+  font-size: 13px;
+  fill: var(--dsm-fg);
+}
+
+.dsm-mermaid-node > rect,
+.dsm-mermaid-node > polygon,
+.dsm-mermaid-node > ellipse,
+.dsm-mermaid-node > path {
+  fill: var(--dsm-code-bg);
+  stroke: var(--dsm-border);
+  stroke-width: 1.3;
+}
+
+/* Inner rules (subroutine separators, cylinder lid) are outlines, not fills. */
+.dsm-mermaid-node .dsm-mermaid-node-rule {
+  fill: none;
+  stroke: var(--dsm-border);
+  stroke-width: 1.1;
+}
+
+.dsm-mermaid-label {
+  fill: var(--dsm-fg);
+}
+
+.dsm-mermaid-edge,
+.dsm-mermaid-seq-msg {
+  fill: none;
+  stroke: var(--dsm-fg);
+  stroke-width: 1.4;
+}
+
+.dsm-mermaid-edge--dashed {
+  stroke-dasharray: 6 4;
+}
+
+.dsm-mermaid-edge--thick {
+  stroke-width: 2.6;
+}
+
+.dsm-mermaid-head {
+  fill: var(--dsm-fg);
+  stroke: none;
+}
+
+.dsm-mermaid-head-open {
+  fill: none;
+  stroke: var(--dsm-fg);
+  stroke-width: 1.4;
+}
+
+.dsm-mermaid-edge-label rect {
+  fill: var(--dsm-bg);
+  stroke: var(--dsm-border-soft);
+  stroke-width: 1;
+}
+
+.dsm-mermaid-edge-label text {
+  font-size: 12px;
+}
+
+.dsm-mermaid-group rect {
+  fill: none;
+  stroke: var(--dsm-mermaid-guide);
+  stroke-width: 1;
+  stroke-dasharray: 4 3;
+}
+
+.dsm-mermaid-group-label {
+  font-size: 11.5px;
+  fill: var(--dsm-muted);
+}
+
+.dsm-mermaid-lifeline {
+  stroke: var(--dsm-mermaid-guide);
+  stroke-width: 1.2;
+  stroke-dasharray: 5 4;
+}
+
+.dsm-mermaid-activation {
+  fill: var(--dsm-code-bg);
+  stroke: var(--dsm-border);
+  stroke-width: 1;
+}
+
+.dsm-mermaid-participant rect {
+  fill: var(--dsm-code-bg);
+  stroke: var(--dsm-border);
+  stroke-width: 1.2;
+}
+
+.dsm-mermaid-note rect {
+  fill: var(--dsm-bg);
+  stroke: var(--dsm-border);
+  stroke-width: 1.2;
+}
+
+.dsm-mermaid-frame rect {
+  fill: none;
+  stroke: var(--dsm-mermaid-guide);
+  stroke-width: 1;
+}
+
+.dsm-mermaid-frame-tab {
+  fill: var(--dsm-code-bg);
+  stroke: var(--dsm-border-soft);
+  stroke-width: 1;
+}
+
+.dsm-mermaid-frame-label {
+  font-size: 11.5px;
+  fill: var(--dsm-muted);
+}
+
+.dsm-mermaid-frame-divider {
+  stroke: var(--dsm-mermaid-guide);
+  stroke-width: 1;
+  stroke-dasharray: 4 3;
+}
+
+/* Collapsible original source, so the diagram stays copyable. */
+.dsm-mermaid-source > summary {
+  list-style: none;
+  padding: 4px 12px;
+  font-size: 11.5px;
+  color: var(--dsm-muted);
+  cursor: pointer;
+  user-select: none;
+  border-top: 1px solid var(--dsm-border-soft);
+}
+
+.dsm-mermaid-source > summary::-webkit-details-marker {
+  display: none;
+}
+
+.dsm-mermaid-source > summary:hover {
+  color: var(--dsm-fg);
+  background: var(--dsm-hover);
+}
+
+.dsm-mermaid-source > summary .dsm-mermaid-source-open {
+  display: none;
+}
+
+.dsm-mermaid-source[open] > summary .dsm-mermaid-source-closed {
+  display: none;
+}
+
+.dsm-mermaid-source[open] > summary .dsm-mermaid-source-open {
+  display: inline;
+}
+
+.dsm-mermaid-source > pre {
+  margin: 0;
+  padding: 10px 12px;
+  border-top: 1px solid var(--dsm-border-soft);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}

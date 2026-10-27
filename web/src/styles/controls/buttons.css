@@ -1,0 +1,36 @@
+/* styles/controls/buttons.css — the composer's round action buttons: send,
+ * stop.
+ *
+ * Split out of styles/controls.css; the aggregator there @imports this file in
+ * the original cascade position, so the bundled CSS is unchanged. */
+
+.dsm-send,
+.dsm-stop {
+  flex: 0 0 auto;
+  border-radius: 999px;
+  width: 22px;
+  height: 22px;
+}
+
+.dsm-send {
+  background: var(--dsm-fg);
+  color: var(--dsm-bg, #1f1f1f);
+}
+
+.dsm-send:hover:not(:disabled) {
+  background: var(--dsm-faint);
+  color: var(--dsm-bg, #1f1f1f);
+}
+
+.dsm-send:disabled {
+  opacity: 0.55;
+}
+
+.dsm-stop {
+  background: color-mix(in srgb, var(--dsm-danger) 25%, transparent);
+  color: var(--dsm-danger);
+}
+
+.dsm-stop:hover {
+  background: color-mix(in srgb, var(--dsm-danger) 38%, transparent);
+}

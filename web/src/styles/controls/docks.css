@@ -1,0 +1,368 @@
+/* styles/controls/docks.css — docked panels (question, error), the spinner and
+ * the shared thin scrollbars.
+ *
+ * Split out of styles/controls.css; the aggregator there @imports this file in
+ * the original cascade position, so the bundled CSS is unchanged. */
+
+/* ── Docked panels & composer area ───────────────────────────────────────── */
+.dsm-docks {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  /* Centre the dock stack on the same measure as the transcript, so the
+     composer is exactly as wide as the user bubbles above it. The extra
+     scrollbar width on the right mirrors the transcript's stable gutter,
+     which shifts the message column half a scrollbar to the left. */
+  width: 100%;
+  max-width: calc(var(--dsm-chat-column) + var(--dsm-scrollbar-width));
+  margin: 0 auto;
+  padding: 8px calc(var(--dsm-chat-gutter) + var(--dsm-scrollbar-width)) 6px var(--dsm-chat-gutter);
+  max-height: 46%;
+  overflow-y: auto;
+}
+
+.dsm-error-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 7px 9px;
+  border: 1px solid var(--dsm-danger);
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--dsm-danger) 12%, transparent);
+  color: var(--dsm-fg);
+  font-size: 12px;
+}
+
+.dsm-error-banner .dsm-btn-icon {
+  color: var(--dsm-danger);
+}
+
+.dsm-error-text {
+  flex: 1 1 auto;
+  min-width: 0;
+  word-break: break-word;
+}
+
+/* Read-only notice shown in place of the composer for a subagent transcript. */
+.dsm-subagent-notice {
+  padding: 7px 10px;
+  border: 1px dashed var(--dsm-border-soft);
+  border-radius: 6px;
+  color: var(--dsm-muted);
+  font-size: 11.5px;
+  text-align: center;
+}
+
+/* askquestion dock — "Questions" card */
+.dsm-question {
+  border: 1px solid var(--dsm-border-soft);
+  border-radius: 8px;
+  background: var(--dsm-surface);
+  padding: 8px 10px;
+}
+
+.dsm-question-head {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.dsm-question-head-icon {
+  display: inline-flex;
+  align-items: center;
+  color: var(--dsm-accent);
+  flex: 0 0 auto;
+}
+
+.dsm-question-head-title {
+  flex: 1 1 auto;
+  font-size: 10.5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
+  color: var(--dsm-muted);
+}
+
+.dsm-question-head-spacer {
+  flex: 1 1 auto;
+}
+
+.dsm-question-head-nav {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  flex: 0 0 auto;
+}
+
+.dsm-question-navbtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  border: 1px solid var(--dsm-border-soft);
+  border-radius: 5px;
+  background: transparent;
+  color: var(--dsm-muted);
+  cursor: pointer;
+}
+
+.dsm-question-navbtn:hover:not(:disabled) {
+  background: var(--dsm-hover);
+  color: var(--dsm-fg);
+}
+
+.dsm-question-navbtn:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.dsm-question-collapse .is-collapsed-ic {
+  display: none;
+}
+
+.dsm-question.is-collapsed .dsm-question-collapse .is-collapsed-ic {
+  display: block;
+}
+
+.dsm-question-body {
+  margin-top: 6px;
+  max-height: 40vh;
+  overflow-y: auto;
+}
+
+.dsm-question-subtitle {
+  font-size: 11.5px;
+  color: var(--dsm-faint);
+  margin-bottom: 6px;
+}
+
+.dsm-question-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 6px 0;
+}
+
+.dsm-question-q {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.dsm-question-number {
+  flex: 0 0 auto;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--dsm-accent);
+}
+
+.dsm-question-prompt {
+  font-size: 12.5px;
+  line-height: 1.45;
+  color: var(--dsm-fg);
+}
+
+.dsm-question-options {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.dsm-question-option-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.dsm-question-opt {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-align: left;
+  padding: 5px 8px;
+  border: 1px solid var(--dsm-border-soft);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--dsm-fg);
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.dsm-question-opt:hover {
+  background: var(--dsm-hover);
+}
+
+.dsm-question-opt.is-active {
+  border-color: var(--dsm-accent);
+  background: color-mix(in srgb, var(--dsm-accent) 12%, transparent);
+}
+
+.dsm-question-opt-key {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  border-radius: 4px;
+  background: var(--dsm-hover);
+  color: var(--dsm-muted);
+  font-size: 10.5px;
+  font-weight: 600;
+}
+
+.dsm-question-opt.is-active .dsm-question-opt-key {
+  background: var(--dsm-accent);
+  color: var(--dsm-btn-primary-fg, #fff);
+}
+
+.dsm-question-opt-label {
+  flex: 1 1 auto;
+  min-width: 0;
+  word-break: break-word;
+}
+
+.dsm-question-custom {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 5px 8px;
+  border: 1px solid var(--dsm-border-soft);
+  border-radius: 6px;
+  background: var(--dsm-input-bg);
+  color: var(--dsm-input-fg);
+  font: inherit;
+  font-size: 12px;
+  resize: vertical;
+}
+
+.dsm-question-custom:focus {
+  outline: none;
+  border-color: var(--dsm-accent);
+}
+
+.dsm-question-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.dsm-question-skip {
+  font-size: 11.5px;
+  color: var(--dsm-faint);
+  background: none;
+  border: 1px solid var(--dsm-border-soft);
+  border-radius: 5px;
+  padding: 3px 10px;
+  cursor: pointer;
+}
+
+.dsm-question-skip:hover {
+  background: var(--dsm-hover);
+  color: var(--dsm-fg);
+}
+
+.dsm-question-skip kbd {
+  font-family: inherit;
+  font-size: 10px;
+  opacity: 0.7;
+}
+
+.dsm-question-continue {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11.5px;
+  padding: 3px 12px;
+  border-radius: 5px;
+  background: var(--dsm-accent);
+  color: var(--dsm-btn-primary-fg, #fff);
+  border: none;
+  cursor: pointer;
+}
+
+.dsm-question-continue:hover:not(:disabled) {
+  filter: brightness(1.1);
+}
+
+.dsm-question-continue:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.dsm-question-continue-arrow {
+  font-size: 13px;
+  line-height: 1;
+}
+
+/* spinner */
+.dsm-spinner {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid var(--dsm-border);
+  border-top-color: var(--dsm-fg);
+  animation: dsm-spin 0.8s linear infinite;
+  display: inline-block;
+  flex: 0 0 auto;
+}
+
+.dsm-spinner-sm {
+  width: 10px;
+  height: 10px;
+  border-width: 1.5px;
+}
+
+/* thin scrollbars */
+.dsm-scroll::-webkit-scrollbar,
+.dsm-rail-list::-webkit-scrollbar,
+.dsm-slash-list::-webkit-scrollbar,
+.dsm-docks::-webkit-scrollbar {
+  width: var(--dsm-scrollbar-width);
+}
+
+.dsm-scroll::-webkit-scrollbar-track,
+.dsm-rail-list::-webkit-scrollbar-track,
+.dsm-slash-list::-webkit-scrollbar-track,
+.dsm-docks::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.dsm-scroll::-webkit-scrollbar-thumb,
+.dsm-rail-list::-webkit-scrollbar-thumb,
+.dsm-slash-list::-webkit-scrollbar-thumb,
+.dsm-docks::-webkit-scrollbar-thumb {
+  background: var(--dsm-border);
+  border-radius: 3px;
+}
+
+.dsm-scroll::-webkit-scrollbar-thumb:hover,
+.dsm-rail-list::-webkit-scrollbar-thumb:hover,
+.dsm-slash-list::-webkit-scrollbar-thumb:hover,
+.dsm-docks::-webkit-scrollbar-thumb:hover,
+.dsm-question-body::-webkit-scrollbar-thumb:hover {
+  background: var(--dsm-accent);
+}
+
+/* The question card body scrolls internally (see .dsm-question-body). */
+.dsm-question-body::-webkit-scrollbar {
+  width: 6px;
+}
+
+.dsm-question-body::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.dsm-question-body::-webkit-scrollbar-thumb {
+  background: var(--dsm-border);
+  border-radius: 3px;
+}
+
+

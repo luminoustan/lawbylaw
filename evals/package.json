@@ -1,0 +1,2 @@
+{ "name": "lawbylaw-evals", "private": true, "type": "module",
+  "scripts": { "eval": "node --test --test-concurrency=1 server.eval.mjs cache.eval.mjs checklist.eval.mjs browser.eval.mjs; node report.mjs" } }

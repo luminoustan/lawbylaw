@@ -1,0 +1,31 @@
+# Rust-only image: the API server, no web UI.
+#
+# Same shape as Containerfile but without the Node/web stage, so
+# `podman compose build` compiles only the Rust server. The runtime stage is
+# still `scratch` (empty): the server is a fully static musl binary, so the
+# image contains no libc, no shell and no OS packages. See SBOM-AUDIT.md.
+# The trade-off is no shell in the image (debug via `podman logs`).
+#
+# The build stage is rust:1-bookworm (Debian): musl-tools provides the static C
+# toolchain and the musl target is added via rustup, so the build stage stays on
+# the same glibc-based base as the rest of the toolchain.
+FROM docker.io/library/rust:1-bookworm AS server
+# musl-tools provides the static C toolchain; the musl target is added via rustup.
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends musl-tools \
+ && rm -rf /var/lib/apt/lists/* \
+ && rustup target add x86_64-unknown-linux-musl
+WORKDIR /s
+COPY server/ ./
+# +crt-static links libc statically so the binary runs on scratch.
+RUN RUSTFLAGS="-C target-feature=+crt-static" \
+    cargo build --release --target x86_64-unknown-linux-musl
+
+FROM scratch
+# CA roots for outbound HTTPS (DeepSeek). scratch has none, so copy them in.
+COPY --from=server /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
+COPY --from=server /s/target/x86_64-unknown-linux-musl/release/lawbylaw-server /app/lawbylaw-server
+COPY --from=server /s/data /app/data
+ENV PORT=8000 TRUST_PROXY=none
+EXPOSE 8000
+ENTRYPOINT ["/app/lawbylaw-server"]

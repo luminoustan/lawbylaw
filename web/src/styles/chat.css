@@ -1,0 +1,19 @@
+/* styles/chat.css — chat layout, message list/scroll, markdown body and
+ * reasoning block.
+ *
+ * This is a build-time aggregator: esbuild inlines each @import into the
+ * bundled stylesheet in the order below, so the cascade order and
+ * specificity are identical to the previous single-file chat.css. The
+ * implementation lives in styles/chat/:
+ *   shell.css      — the chat column container
+ *   transcript.css — message list, turn bubbles, typing dots, notices,
+ *                    reasoning, selection toolbar
+ *   lightbox.css   — the full-screen Mermaid diagram viewer
+ *   markdown.css   — the Markdown body, tables, code chrome
+ *   mermaid.css    — the Mermaid diagram block and its source details
+ */
+@import "./chat/shell.css";
+@import "./chat/transcript.css";
+@import "./chat/lightbox.css";
+@import "./chat/markdown.css";
+@import "./chat/mermaid.css";

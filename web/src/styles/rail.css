@@ -1,0 +1,157 @@
+/* styles/rail.css — body layout, rail backdrop and the session/history rail. */
+
+/* ── Body / rail ─────────────────────────────────────────────────────────── */
+.dsm-body {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+}
+
+.dsm-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  background: rgba(0, 0, 0, 0.25);
+}
+
+.dsm-rail {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 5;
+  width: 250px;
+  display: flex;
+  flex-direction: column;
+  background: var(--dsm-bg);
+  border-right: 1px solid var(--dsm-border-soft);
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.15);
+}
+
+.dsm-rail-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px 6px;
+}
+
+.dsm-rail-title {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--dsm-muted);
+}
+
+.dsm-rail-actions {
+  display: flex;
+  gap: 2px;
+}
+
+.dsm-rail-list {
+  list-style: none;
+  margin: 0;
+  padding: 2px 6px 8px;
+  overflow-y: auto;
+  flex: 1;
+  min-height: 0;
+}
+
+.dsm-rail-empty {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: var(--dsm-muted);
+  font-size: 12px;
+  padding: 24px;
+}
+
+.dsm-rail-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  border-radius: 7px;
+  margin: 1px 0;
+}
+
+.dsm-rail-item:hover {
+  background: var(--dsm-hover);
+}
+
+.dsm-rail-item.is-active {
+  background: var(--dsm-active);
+  color: var(--dsm-active-fg);
+}
+
+.dsm-rail-item.is-armed {
+  background: color-mix(in srgb, var(--dsm-danger) 18%, transparent);
+}
+
+.dsm-rail-open {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1px;
+  padding: 7px 8px;
+  text-align: left;
+  background: none;
+  border: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.dsm-rail-item-title {
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dsm-rail-item-time {
+  font-size: 10.5px;
+  color: var(--dsm-muted);
+}
+
+.dsm-rail-item.is-active .dsm-rail-item-time {
+  color: color-mix(in srgb, var(--dsm-active-fg) 70%, transparent);
+}
+
+.dsm-rail-rename {
+  flex: 1;
+  margin: 3px 6px;
+  padding: 4px 6px;
+  background: var(--dsm-input-bg);
+  color: var(--dsm-input-fg);
+  border: 1px solid var(--dsm-accent);
+  border-radius: 5px;
+  font: inherit;
+  outline: none;
+  min-width: 0;
+}
+
+.dsm-rail-ops {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding-right: 4px;
+}
+
+.dsm-rail-item.is-active .dsm-rail-delete {
+  color: var(--dsm-active-fg);
+}
+
+.dsm-rail-delete.is-armed,
+.dsm-rail-delete:hover {
+  color: var(--dsm-danger);
+}
+
+.dsm-rail-delete.is-armed {
+  background: color-mix(in srgb, var(--dsm-danger) 22%, transparent);
+}

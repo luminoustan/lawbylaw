@@ -1,0 +1,18 @@
+/* styles/controls.css — docked panels (question, error), the menu
+ * dropdown, the `/` skills menu and the composer box + its footer actions.
+ *
+ * This is a build-time aggregator: esbuild inlines each @import into the
+ * bundled stylesheet in the order below, so the cascade order and
+ * specificity are identical to the previous single-file controls.css. The
+ * implementation lives in styles/controls/:
+ *   docks.css       — docked panels, spinner, shared thin
+ *                     scrollbars
+ *   menu-select.css — the MenuSelect dropdown
+ *   composer.css    — the composer box, footer and pills
+ *   buttons.css     — the composer's send/stop action buttons
+ */
+@import "./controls/docks.css";
+@import "./controls/menu-select.css";
+@import "./controls/composer.css";
+@import "./controls/buttons.css";
+@import "./controls/slash-menu.css";

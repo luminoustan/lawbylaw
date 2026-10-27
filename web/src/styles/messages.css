@@ -1,0 +1,14 @@
+/* styles/messages.css — tool call cards and the unknown-part fallback.
+ *
+ * This is a build-time aggregator: esbuild inlines each @import into the
+ * bundled stylesheet in the order below. The implementation lives in
+ * styles/messages/:
+ *   tool-card.css  — the shared tool-card shell and running-name pulse
+ *   tool-answer.css— the answer card (askquestion)
+ *   tool-task.css  — the task card (subagent)
+ *   turn.css       — summary rows, groups, fallbacks, divider
+ */
+@import "./messages/tool-card.css";
+@import "./messages/tool-answer.css";
+@import "./messages/tool-task.css";
+@import "./messages/turn.css";

@@ -1,0 +1,13 @@
+# Build context for `podman compose up --build`. Only server/ and web/ are needed.
+# Never ship snapshots or secrets
+**/*.snapshot
+**/qdrant_snapshots
+.env
+.env.*
+!.env.example
+# Build outputs / dependencies (rebuilt inside the image)
+**/target
+**/node_modules
+**/dist
+evals
+.git

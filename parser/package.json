@@ -1,0 +1,17 @@
+{
+  "name": "lawbylaw-sso-parser",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Dependency-light parser for Singapore Statutes Online (SSO) legislation PDFs: Node zlib extraction, math-glyph recovery, tables, section splitting.",
+  "license": "MIT",
+  "engines": { "node": ">=22.18" },
+  "scripts": {
+    "parse": "node scripts/parse-legislation.mjs",
+    "test": "node scripts/tests/tables.test.mjs && node scripts/tests/legislation-split.test.mjs && node scripts/tests/legislation-reflow.test.mjs && node scripts/tests/unparsed-formulas.test.mjs",
+    "test:corpus": "node scripts/tests/legislation-regression.test.mjs"
+  },
+  "dependencies": {
+    "tokenizers": "^0.23.2"
+  }
+}
